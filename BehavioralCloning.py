@@ -1,10 +1,3 @@
-# -*- coding: utf-8 -*-
-"""
-Created on Mon Jan 29 20:59:10 2018
-
-@author: rzqbnq
-"""
-
 ### Adapted from Behavioral Cloning: Training the Network
 ### Assistance from Stack Overflow convert RGB to Gray Scale
 import csv
