@@ -29,21 +29,31 @@ y_train = np.array(measurements)
 
 
 def Remove_Excess(y_train,images,max_mag,str_ang_low,str_ang_up): 
+    ## Double test images by mirroring
+    images_temp = []
+    y_temp = []
+    for i in range(0,np.size(y_train)):
+        images_temp.append(cv2.flip(images[i],1))
+        y_temp.append(-(y_train[i]))
+    
+    y_train = np.concatenate((y_train,y_temp),axis=0)
+    images = images + images_temp
+    
     ## Initial histogram and training set characteristics
     unique_values, unique_magnitudes = np.unique(y_train, return_counts = True)
-    plt.hist(y_train,bins=np.size(unique_values)) 
+    ##plt.hist(y_train,bins=np.size(unique_values)) 
     
     ## Remove values that are over represented in the training data
     too_many = np.where(unique_magnitudes > max_mag)
     
     for i in range(0,np.size(too_many)):
         holder = np.where(y_train == unique_values[too_many[0][i]])
-        holder_rand = np.random.choice(holder[0],size=(unique_magnitudes[too_many[0][i]] - max_mag))
-        holder_sort = np.sort(holder_rand)
-        y_train = np.delete(y_train,holder_sort)
+        #holder_rand = np.random.choice(holder[0],size=(unique_magnitudes[too_many[0][i]] - max_mag))
+        #holder_sort = np.sort(holder_rand)
+        y_train = np.delete(y_train,holder)
         
-        for j in range(0,np.size(holder_sort)):
-            del images[holder_sort[np.size(holder_sort) - 1 - j]]
+        for j in range(0,np.size(holder)):
+            del images[holder[0][np.size(holder) - 1 - j]]
     
     ## Remove steering angles below lower bound
     indices_lower = np.where(y_train < str_ang_low)
@@ -68,9 +78,9 @@ def Remove_Excess(y_train,images,max_mag,str_ang_low,str_ang_up):
     
     return X_train, y_train
 
-max_mag = 300
-str_ang_low = -0.4
-str_ang_up  =  0.4
+max_mag = 600
+str_ang_low = -0.8
+str_ang_up  =  0.8
 X_train, y_train = Remove_Excess(y_train,images,max_mag,str_ang_low,str_ang_up)
 
 def Convolutional_Network(X_train, y_train):
@@ -103,4 +113,4 @@ def Convolutional_Network(X_train, y_train):
     model.save('model.h5')
     return
 
-#Convolutional_Network(X_train,y_train)
+Convolutional_Network(X_train,y_train)
