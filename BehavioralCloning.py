@@ -78,7 +78,7 @@ def Remove_Excess(y_train,images,max_mag,str_ang_low,str_ang_up):
     
     return X_train, y_train
 
-max_mag = 600
+max_mag = 400
 str_ang_low = -0.8
 str_ang_up  =  0.8
 X_train, y_train = Remove_Excess(y_train,images,max_mag,str_ang_low,str_ang_up)
@@ -96,10 +96,15 @@ def Convolutional_Network(X_train, y_train):
     model.add(Lambda(lambda x: x / 255.0 - 0.5, input_shape = (160,320,3)))
     model.add(Cropping2D(cropping=((70,24),(60,60))))
     model.add(Convolution2D(24,5,strides=(2,2)))
+    model.add(Dropout(0.3))
     model.add(Convolution2D(36,5,strides=(2,2)))
+    model.add(Dropout(0.3))
     model.add(Convolution2D(48,5,strides=(2,2)))
+    model.add(Dropout(0.3))
     model.add(Convolution2D(64,3,strides=(1,1)))
+    model.add(Dropout(0.3))
     model.add(Convolution2D(64,3,strides=(1,1)))
+    model.add(Dropout(0.3))
     model.add(Flatten())
     model.add(Dense(1164, activation='relu'))
     model.add(Dense(100, activation='relu'))
