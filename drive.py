@@ -12,6 +12,9 @@ from PIL import Image
 from flask import Flask
 from io import BytesIO
 
+os.environ["CUDA_DEVICE_ORDER"] = "PCI_BUS_ID"   # see issue #152
+os.environ["CUDA_VISIBLE_DEVICES"] = ""
+
 import cv2
 
 from keras.models import load_model
