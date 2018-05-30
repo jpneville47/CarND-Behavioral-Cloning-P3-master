@@ -67,23 +67,7 @@ def telemetry(sid, data):
         image = Image.open(BytesIO(base64.b64decode(imgString)))
         image_array = np.asarray(image)
         
-        #print('TYPE')
-        #print(type(image))
-        # put your resizing/cropping/normalization code here
-        # example code:
-        #
-        # cropping
-        # image_array = image_array[50:20,:,:]
-        # 
-        # resizing
-        # image_array = cv2.resize(image_array, (160, 320, 3))
-        # 
-        # normalization
-        # image_array = image_array/255.0 - 0.5 
-
         steering_angle = float(model.predict(image_array[None, :, :, :], batch_size=1))    
-            
-        #steering_angle = float(0)
         
         throttle = controller.update(float(speed))
 

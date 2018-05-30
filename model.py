@@ -168,7 +168,7 @@ def Convolutional_Network(X_train, y_train):
     model.save('model.h5')
     return history
 
-
+"""Create Netural Network and return history of loss function per epoch"""
 history = Convolutional_Network(X_train,y_train)  
 
 """plot the training and validation loss for each epoch"""
